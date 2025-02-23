@@ -63,7 +63,7 @@ def main():
     # Prompt user for input
     user_query = input("Enter your movie description: ")
     try:
-        n_matches = int(input("Number of matches to return (N): "))
+        n_matches = int(input("Enter number of matches to return (N): "))
     except ValueError:
         n_matches = 5  # default if user doesn't enter a valid integer
 
