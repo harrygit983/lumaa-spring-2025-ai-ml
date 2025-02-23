@@ -15,7 +15,7 @@ def load_dataset(csv_path):
     # Build a dictionary: { "Title": "combined_plot" }
     data_dict = {}
     for idx, row in data_frame.iterrows():
-        title = row['Title']
+        title = row['title']
         combined_plot = row['combined_plot']
         data_dict[title] = combined_plot
 
