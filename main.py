@@ -5,8 +5,9 @@ from sklearn.metrics.pairwise import cosine_similarity
 def load_dataset(csv_path):
     """ Loads and preprocesses the dataset from CSV file into a dataframe. Returns a dictionary of {title: combined_plot}. """
     data_frame = pd.read_csv(csv_path)
+    # Convert all column names to lowercase to prevent case mismatches
+    data_frame.columns = data_frame.columns.str.strip().str.lower()
     data_frame.fillna("", inplace=True)  # Handle missing values if any
-
     # Combine wiki_plot and imdb_plot into one text field
     data_frame['combined_plot'] = data_frame['wiki_plot'].astype(str) + " " + data_frame['imdb_plot'].astype(str)
 
