@@ -3,19 +3,17 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 def load_dataset(csv_path):
-    """
-    Loads and preprocesses the dataset from a CSV file.
-    Returns a dictionary of {title: combined_plot}.
-    """
-    df = pd.read_csv(csv_path)
-    df.fillna("", inplace=True)  # Handle missing values if any
+    """ Loads and preprocesses the dataset from CSV file into a dataframe. Returns a dictionary of {title: combined_plot}. """
+    data_frame = pd.read_csv(csv_path)
+    data_frame.fillna("", inplace=True)  # Handle missing values if any
 
     # Combine wiki_plot and imdb_plot into one text field
-    df['combined_plot'] = df['wiki_plot'].astype(str) + " " + df['imdb_plot'].astype(str)
+    data_frame['combined_plot'] = data_frame['wiki_plot'].astype(str) + " " + data_frame['imdb_plot'].astype(str)
 
+    
     # Build a dictionary: { "Title": "combined_plot" }
     data_dict = {}
-    for idx, row in df.iterrows():
+    for idx, row in data_frame.iterrows():
         title = row['Title']
         combined_plot = row['combined_plot']
         data_dict[title] = combined_plot
@@ -23,21 +21,13 @@ def load_dataset(csv_path):
     return data_dict
 
 def build_tfidf_vectorizer(all_texts):
-    """
-    Builds and fits a TF-IDF vectorizer on all plot data.
-    Returns:
-     - A fitted TfidfVectorizer instance
-     - The TF-IDF matrix for all plots
-    """
+    """ Builds and fits a TF-IDF vectorizer on all plot data. Returns: A fitted TfidfVectorizer instance & the TF-IDF matrix for all plots. """
     vectorizer = TfidfVectorizer(stop_words='english')
     tfidf_matrix = vectorizer.fit_transform(all_texts)  # Fit + Transform
     return vectorizer, tfidf_matrix
 
 def vectorize_query(query, vectorizer):
-    """
-    Vectorizes the user query using the same TF-IDF vectorizer.
-    Returns the TF-IDF vector for the query.
-    """
+    """ Vectorizes the user query using the same TF-IDF vectorizer. Returns the TF-IDF vector for the query."""
     query_vector = vectorizer.transform([query])
     return query_vector
 
