@@ -13,11 +13,8 @@ def load_dataset(csv_path):
 
     
     # Build a dictionary: { "Title": "combined_plot" }
-    data_dict = {}
-    for idx, row in data_frame.iterrows():
-        title = row['title']
-        combined_plot = row['combined_plot']
-        data_dict[title] = combined_plot
+    # Uses vectorized operations and direct column access to avoid using iterators (No overhead of creating Series objects).
+    data_dict = dict(zip(data_frame['title'], data_frame['combined_plot']))
 
     return data_dict
 
@@ -33,12 +30,9 @@ def vectorize_query(query, vectorizer):
     return query_vector
 
 def get_top_n_matches(query_vector, tfidf_matrix, titles, n=5):
-    """
-    Computes cosine similarity between the query vector and each plot.
-    Returns the top N matching titles (sorted by descending similarity).
-    """
+    """ Computes cosine similarity between the query vector and each plot. Returns the top N matching titles (sorted by descending similarity). """
     # Calculate cosine similarity
-    # returns a 2D array of shape (1, num_movies).
+    # Returns a 2D array of shape (1, num_movies).
     # Flatten it to get a 1D array of similarity scores.
     similarity_array = cosine_similarity(query_vector, tfidf_matrix).flatten()
     
