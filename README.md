@@ -35,7 +35,9 @@ Install necessary dependencies: pip install -r requirements.txt
 Running the Code:
 
 python3 movie_recommendation.py
+
 Enter your movie description: (ENTER MOVIE DESCRIPTION HERE)
+
 Enter number of matches to return: (ENTER NUMBER OF MATCHES TO RETURN HERE)
 
 
