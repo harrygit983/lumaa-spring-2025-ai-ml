@@ -30,25 +30,25 @@ def vectorize_query(query, vectorizer):
     return query_vector
 
 def get_top_n_matches(query_vector, tfidf_matrix, titles, n=5):
-    """ Computes cosine similarity between the query vector and each plot. Returns the top N matching titles (sorted by descending similarity). """
+    """ Computes cosine similarity between the query vector and each movie plot. Returns the top N matching titles (sorted by descending similarity). """
     # Calculate cosine similarity
     # Returns a 2D array of shape (1, num_movies).
     # Flatten it to get a 1D array of similarity scores.
     similarity_array = cosine_similarity(query_vector, tfidf_matrix).flatten()
     
     # Enumerate the similarity scores
-    indexed_similarities = list(enumerate(similarity_array))
+    indexed_similarity_scores = list(enumerate(similarity_array))
     
-    # 3. Sort the (index, score) pairs by descending similarity score
-    sorted_by_score_desc = sorted(indexed_similarities, key=lambda x: x[1], reverse=True)
+    # Sort the (index, score) pairs by descending similarity score
+    sorted_by_score_desc = sorted(indexed_similarity_scores, key=lambda x: x[1], reverse=True)
 
-    # 4. Extract the top N items
+    # Extract the top N items
     top_n_indexed_scores = sorted_by_score_desc[:n]
     
     # Build list of (title, similarity_score)
     top_matches = []
     for index_score_tuple in top_n_indexed_scores:
-        # Destructure the tuple into index and score
+        # Deconstruct the tuple into index and score
         idx, score = index_score_tuple
 
         # Find the corresponding title in the 'titles' list
